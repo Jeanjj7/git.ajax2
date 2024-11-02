@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="estilo.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <center>
+        <h1>
+            Gerenciamento de Inventários
+        </h1>
+        <input type="text" id="texto_pesquisado" size="60">
+        <button id='btnPesquisar'>🔎Pesquisar</button>
+    </center>
+
+    <div id="conteudo"> 
+       RESULTADO TEM QUE APARECER AQUI
+    </div>
+    <div id="escurecer">
+        <img src="mario.gif" id="imgCarregando">
+    </div>
+    <script>
+        $(document).ready(function(){
+            $("#conteudo").html("<img src='icegif-982.gif' >");
+            $("#escurecer").hide();
+            $("#conteudo").load("consultar.php");
+        });
+        $("#btnPesquisar").click(function(){
+            var texto_pesquisado = $("#texto_pesquisado").val();
+            $("#conteudo").html("<img src='icegif-982.gif' >");
+            $.ajax({
+                   url:"pesquisar.php",
+                   method:"POST",
+                   data: {texto_pesquisado:texto_pesquisado},
+                   success: function (resposta){
+                    $("#conteudo").html(resposta);
+                   },
+                   error: function (){
+                    alert("Não foi possivel pesquisar!!");
+                   }
+                });
+        });
+    </script>
+    
+</body>
+</html>
