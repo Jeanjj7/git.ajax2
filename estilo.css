@@ -32,7 +32,7 @@ body{
 #imgCarregando{
     height: 50px;
 }
-#escurecer{
+#escurecer, #escurecer2,#escurecer3{
     width: 100vw;
     height: 100vh;
     background-color: rgba(43, 41, 41, 0.5);
@@ -46,3 +46,127 @@ body{
     justify-content: center;
 
 }
+#formulario,#cadrasto{
+    background-color: white;
+    padding: 30px;
+    border-radius: 20px;
+}
+#btnAdicionar{
+    background-color: goldenrod;
+    color: white;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    right: 15px;
+    bottom: 15px;
+    border-radius: 40px;
+    transition: all  0.5s;
+}
+#btnAdicionar:hover{
+    cursor: pointer;
+    transform: scale(1.2);
+    background-color: rgb(17, 37, 255);
+}
+
+
+/**/
+#btnsalvar  {
+    background: #fff;
+    border: none;
+    padding: 10px 20px;
+    display: inline-block;
+    font-size: 15px;
+    font-weight: 600;
+    width: 120px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transform: skew(-21deg);
+  }
+  
+  #btnsalvar span {
+    display: inline-block;
+    transform: skew(21deg);
+  }
+  
+  #btnsalvar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 100%;
+    left: 0;
+    background: rgb(0, 255, 17);
+    opacity: 0;
+    z-index: -1;
+    transition: all 0.5s;
+  }
+  
+  #btnsalvar:hover {
+    color: #fff;
+  }
+  
+  #btnsalvar:hover::before {
+    left: 0;
+    right: 0;
+    opacity: 1;
+  }
+  
+/**/
+
+#btnDeletar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgb(20, 20, 20);
+    border: none;
+    font-weight: 600;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
+    cursor: pointer;
+    transition-duration: .3s;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .svgIcon {
+    width: 12px;
+    transition-duration: .3s;
+  }
+  
+  .svgIcon path {
+    fill: white;
+  }
+  
+  #btnDeletar:hover {
+    width: 140px;
+    border-radius: 50px;
+    transition-duration: .3s;
+    background-color: rgb(255, 69, 69);
+    align-items: center;
+  }
+  
+  #btnDeletar:hover .svgIcon {
+    width: 50px;
+    transition-duration: .3s;
+    transform: translateY(60%);
+  }
+  
+  #btnDeletar::before {
+    position: absolute;
+    top: -20px;
+    content: "Delete";
+    color: white;
+    transition-duration: .3s;
+    font-size: 2px;
+  }
+  
+  #btnDeletar:hover::before {
+    font-size: 13px;
+    opacity: 1;
+    transform: translateY(30px);
+    transition-duration: .3s;
+  }

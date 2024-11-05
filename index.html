@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="estilo.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+
 <body>
 
     <center>
@@ -17,34 +19,199 @@
         <button id='btnPesquisar'>🔎Pesquisar</button>
     </center>
 
-    <div id="conteudo"> 
-       RESULTADO TEM QUE APARECER AQUI
+    <div id="conteudo">
+        RESULTADO TEM QUE APARECER AQUI
+
     </div>
+    <div id="btnAdicionar"> + </div>
+    <div id="escurecer3">
+        <div id="cadrasto">
+            <button id="bntFrecadastro"> x </button><br>
+            <h1>Cadastra Item</h1>
+            Descrição: <input id="caixaDescricao2"><br><br>
+            Categoria: <input id="caixaCategoria2"><br><br>
+            Setor: <select id="caixaSetor2">
+                <option value="">Selecione</option>
+                <option value="NAD">NAD</option>
+                <option value="NEP">NEP</option>
+                <option value="Suporte">Suporte</option>
+                <option value="Atendimento">Atendimento</option>
+                <option value="Administrativo">Administrativo</option>
+            </select> <br> <br>
+
+            <button id="bntCadratra">Cadastra</button>
+        </div>
+     </div>
+
+
     <div id="escurecer">
         <img src="mario.gif" id="imgCarregando">
+
+    </div>
+
+    <div id="escurecer2">
+        <div id="formulario">
+            <button id="btnFechar">x</button><br>
+            <h1>Editar/Deletar</h1>
+            Codigo: <input type="text" id="caixaId" disabled><br><br>
+            Descrição: <input type="text" id="caixaDescricao"><br><br>
+            Categoria: <input type="text" id="caixaCategoria"><br><br>
+            Setor: <select id="caixaSetor">
+                <option value="">Selecione</option>
+                <option value="NAD">NAD</option>
+                <option value="NEP">NEP</option>
+                <option value="Suporte">Suporte</option>
+                <option value="Atendimento">Atendimento</option>
+                <option value="Administrativo">Administrativo</option>
+
+            </select> <br> <br>
+            <button id="btnsalvar">Salvar</button>
+            <!-- <button id="btnDeletar">Deletar</button> -->
+            <button id="btnDeletar">
+                <svg viewBox="0 0 448 512" class="svgIcon">
+                    <path
+                        d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z">
+                    </path>
+                </svg>
+            </button>
+
+        </div>
     </div>
     <script>
-        $(document).ready(function(){
+        $("#bntCadratra").click(function(){
+            $("#escurecer3").hide();
+            $("#escurecer").show();
+
+            var desc_capturada = $("#caixaDescricao2").val();
+            var cat_capturada = $("#caixaCategoria2").val();
+            var setor_capturada = $("#caixaSetor2").val();
+
+            $.ajax({
+                type: "POST",
+                url: "inserir.php",
+                data: {
+                    descricao_digitada: desc_capturada,
+                    categoria: cat_capturada,
+                    setor_selecionado: setor_capturada
+                },
+                success: function (resposta) {
+                    alert(resposta);
+                    $("#escurecer").hide();
+                    $("#conteudo").html("Carregando...");
+                    $("#conteudo").load("consultar.php");
+
+                    $("#caixaDescricao2").val("");
+                    $("#caixaCategoria2").val("");
+                    $("#caixaSetor2").val("Selecione");
+
+                },
+                error: function () {
+                    alert("Erro ao Cadratra!!")
+                    $("#escurecer").hide();
+                }
+
+            });
+        });
+
+        $("#bntFrecadastro").click(function(){
+            $("#escurecer3").hide();
+        });
+        $("#btnAdicionar").click(function(){
+            $("#escurecer3").show();
+        });
+
+        $("#btnsalvar").click(function () {
+            $("#escurecer2").hide();
+            $("#escurecer").show();
+            var id_escolhido = $("#caixaId").val();
+            var desc_escolhido = $("#caixaDescricao").val();
+            var cat_escolhido = $("#caixaCategoria").val();
+            var setor_escolhido = $("#caixaSetor").val();
+            $.ajax({
+                type: "POST",
+                url: "atualizar.php",
+                data: {
+                    cod: id_escolhido,
+                    desc_nova: desc_escolhido,
+                    cat_nova: cat_escolhido,
+                    setor_novo: setor_escolhido
+                },
+                success: function (resposta) {
+                    alert(resposta);
+                    $("#escurecer").hide();
+                    $("#conteudo").load("consultar.php");
+                },
+                error: function () {
+                    alert("Erro ao atualizar")
+                    $("#escurecer").hide();
+                    $("#conteudo").load("consultar.php");
+                }
+
+            });
+        });
+        $("#btnDeletar").click(function () {
+            var id_escolhido = $("#caixaId").val();
+            $("#escurecer2").hide();
+            $("#escurecer").show();
+            $.ajax({
+                url: "deletar.php",
+                type: "GET",
+                data: { cod: id_escolhido },
+                success: function (resposta) {
+                    alert(resposta);
+                    $("#escurecer").hide();
+                    $("#conteudo").load("consultar.php");
+                },
+                error: function () {
+                    alert("Erro ao deletar");
+                    $("#escurecer").hide();
+                }
+            });
+        });
+        $(document).ready(function () {
             $("#conteudo").html("<img src='icegif-982.gif' >");
             $("#escurecer").hide();
             $("#conteudo").load("consultar.php");
+            $("#escurecer2").hide();
+            $("#escurecer3").hide();
         });
-        $("#btnPesquisar").click(function(){
+        $(document).on("click", ".cartoes", function () {
+            $("#escurecer2").show();
+
+            var codigo_captura = $(this).find(".cod_produto").text();
+            var descricao_captura = $(this).find(".desc_produto").text();
+            var categoria_captura = $(this).find(".cat_produto").text();
+            var setor_captura = $(this).find(".setor_produto").text();
+
+            $("#caixaId").val(codigo_captura);
+            $("#caixaDescricao").val(descricao_captura);
+            $("#caixaCategoria").val(categoria_captura);
+            $("#caixaSetor").val(setor_captura);
+
+        });
+
+        $("#btnFechar").click(function () {
+            $("#escurecer2").hide();
+
+        });
+
+        $("#btnPesquisar").click(function () {
             var texto_pesquisado = $("#texto_pesquisado").val();
             $("#conteudo").html("<img src='icegif-982.gif' >");
             $.ajax({
-                   url:"pesquisar.php",
-                   method:"POST",
-                   data: {texto_pesquisado:texto_pesquisado},
-                   success: function (resposta){
+                url: "pesquisar.php",
+                method: "POST",
+                data: { texto_pesquisado: texto_pesquisado },
+                success: function (resposta) {
                     $("#conteudo").html(resposta);
-                   },
-                   error: function (){
+                },
+                error: function () {
                     alert("Não foi possivel pesquisar!!");
-                   }
-                });
+                }
+            });
         });
     </script>
-    
+
 </body>
+
 </html>
